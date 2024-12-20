@@ -14,5 +14,8 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("tailwindcss-animate"),
+    require("@assistant-ui/react/tailwindcss")({ shadcn: true })
+  ],
 } satisfies Config;
