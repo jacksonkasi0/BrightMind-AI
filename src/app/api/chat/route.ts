@@ -1,5 +1,3 @@
-export const runtime = "edge";
-
 // @ts-ignore
 import { google } from "@ai-sdk/google";
 import { createEdgeRuntimeAPI } from "@assistant-ui/react/edge";
