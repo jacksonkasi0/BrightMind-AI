@@ -2,7 +2,6 @@
 
 import {
   AssistantRuntimeProvider,
-  Thread,
   useEdgeRuntime,
 } from "@assistant-ui/react";
 
@@ -14,6 +13,8 @@ import {
 } from "@assistant-ui/react";
 
 import { WebSearchToolUI } from "@/tools/WebSearchToolUI";
+import { Thread } from "@/components/assistant-ui/thread";
+
 
 const Home = () => {
   const runtime = useEdgeRuntime({
