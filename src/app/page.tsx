@@ -1,6 +1,10 @@
 "use client";
 
-import { Thread, useEdgeRuntime } from "@assistant-ui/react";
+import {
+  AssistantRuntimeProvider,
+  Thread,
+  useEdgeRuntime,
+} from "@assistant-ui/react";
 
 import {
   WebSpeechSynthesisAdapter,
@@ -8,6 +12,8 @@ import {
   SimpleImageAttachmentAdapter,
   SimpleTextAttachmentAdapter,
 } from "@assistant-ui/react";
+
+import { WebSearchToolUI } from "@/tools/WebSearchToolUI";
 
 const Home = () => {
   const runtime = useEdgeRuntime({
@@ -23,7 +29,10 @@ const Home = () => {
 
   return (
     <div className="h-full">
-      <Thread runtime={runtime} />
+      <AssistantRuntimeProvider runtime={runtime}>
+        <Thread />
+        <WebSearchToolUI />
+      </AssistantRuntimeProvider>
     </div>
   );
 };
