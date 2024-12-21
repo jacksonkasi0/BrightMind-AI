@@ -1,7 +1,9 @@
 import { convertToCoreMessages, Message, streamText } from "ai";
-import { z } from "zod";
 
+// ** import models
 import { geminiFlashModel } from "@/ai";
+
+// ** import tools
 import { getWeather } from "@/tools/weather/weather";
 
 export async function POST(request: Request) {
