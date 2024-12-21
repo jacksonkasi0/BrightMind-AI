@@ -24,30 +24,38 @@ import {
 } from "lucide-react";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
+import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
+import { ScrollBar } from "@/components/ui/scroll-area";
+
 import { cn } from "@/lib/utils";
 
 export const Thread: FC = () => {
   return (
-    <ThreadPrimitive.Root className="bg-background h-full">
-      <ThreadPrimitive.Viewport className="flex h-full flex-col items-center overflow-y-scroll scroll-smooth bg-inherit px-4 pt-8">
-        <MyThreadWelcome />
+    <ScrollAreaPrimitive.Root asChild>
+      <ThreadPrimitive.Root className="bg-background h-full">
+        <ScrollAreaPrimitive.Viewport className="thread-viewport" asChild>
+          <ThreadPrimitive.Viewport className="flex h-full flex-col items-center overflow-y-scroll scroll-smooth bg-inherit px-4 pt-8">
+            <MyThreadWelcome />
 
-        <ThreadPrimitive.Messages
-          components={{
-            UserMessage: MyUserMessage,
-            EditComposer: MyEditComposer,
-            AssistantMessage: MyAssistantMessage,
-          }}
-        />
+            <ThreadPrimitive.Messages
+              components={{
+                UserMessage: MyUserMessage,
+                EditComposer: MyEditComposer,
+                AssistantMessage: MyAssistantMessage,
+              }}
+            />
 
-        <div className="min-h-8 flex-grow" />
+            <div className="min-h-8 flex-grow" />
 
-        <div className="sticky bottom-0 mt-3 flex w-full max-w-2xl flex-col items-center justify-end rounded-t-lg bg-inherit pb-4">
-          <MyThreadScrollToBottom />
-          <MyComposer />
-        </div>
-      </ThreadPrimitive.Viewport>
-    </ThreadPrimitive.Root>
+            <div className="sticky bottom-0 mt-3 flex w-full max-w-2xl flex-col items-center justify-end rounded-t-lg bg-inherit pb-4">
+              <MyThreadScrollToBottom />
+              <MyComposer />
+            </div>
+          </ThreadPrimitive.Viewport>
+        </ScrollAreaPrimitive.Viewport>
+        <ScrollBar />
+      </ThreadPrimitive.Root>
+    </ScrollAreaPrimitive.Root>
   );
 };
 
