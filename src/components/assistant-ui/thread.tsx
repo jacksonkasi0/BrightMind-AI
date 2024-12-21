@@ -146,15 +146,26 @@ const MyUserActionBar: FC = () => {
 
 const MyEditComposer: FC = () => {
   return (
-    <ComposerPrimitive.Root className="bg-muted my-4 flex w-full max-w-2xl flex-col gap-2 rounded-xl">
-      <ComposerPrimitive.Input className="text-foreground flex h-8 w-full resize-none border-none bg-transparent p-4 pb-0 outline-none focus:ring-0" />
+    <ComposerPrimitive.Root 
+      className="mx-auto flex w-full max-w-2xl flex-col justify-end gap-1 rounded-3xl 
+        bg-gray-100 dark:bg-white/15"
+    >
+      <ComposerPrimitive.Input 
+        className="flex h-8 w-full resize-none bg-transparent p-4 pb-0 text-gray-900 outline-none dark:text-white" 
+      />
 
-      <div className="mx-3 mb-3 flex items-center justify-center gap-2 self-end">
-        <ComposerPrimitive.Cancel asChild>
-          <Button variant="ghost">Cancel</Button>
+      <div className="m-3 mt-2 flex items-center justify-center gap-2 self-end">
+        <ComposerPrimitive.Cancel 
+          className="rounded-full bg-gray-100 px-3 py-2 text-sm font-semibold text-gray-900 
+            hover:bg-gray-200 dark:bg-zinc-900 dark:text-white dark:hover:bg-zinc-800"
+        >
+          Cancel
         </ComposerPrimitive.Cancel>
-        <ComposerPrimitive.Send asChild>
-          <Button>Send</Button>
+        <ComposerPrimitive.Send 
+          className="rounded-full bg-gray-900 px-3 py-2 text-sm font-semibold text-white 
+            hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-white/90"
+        >
+          Send
         </ComposerPrimitive.Send>
       </div>
     </ComposerPrimitive.Root>
