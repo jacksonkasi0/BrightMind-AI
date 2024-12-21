@@ -4,7 +4,6 @@ import {
   AssistantRuntimeProvider,
   useEdgeRuntime,
 } from "@assistant-ui/react";
-
 import {
   WebSpeechSynthesisAdapter,
   CompositeAttachmentAdapter,
@@ -12,7 +11,10 @@ import {
   SimpleTextAttachmentAdapter,
 } from "@assistant-ui/react";
 
-import { WebSearchToolUI } from "@/tools/WebSearchToolUI";
+// ** import tools ui
+import { WebSearchToolUI } from "@/tools/weather/WebSearchToolUI";
+
+// ** import components
 import { Thread } from "@/components/assistant-ui/thread";
 
 
