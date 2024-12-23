@@ -8,7 +8,6 @@ export const getWeather = tool({
       longitude: z.number().describe("Longitude coordinate"),
     }),
     experimental_toToolResultContent: (result) => {
-      console.log("Experimental toToolResultContent:", result);
       return result as any
     },
     execute: async ({ latitude, longitude }: { latitude: number; longitude: number }) => {
@@ -16,7 +15,7 @@ export const getWeather = tool({
         const response = await fetch(
           `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m&hourly=temperature_2m&daily=sunrise,sunset&timezone=auto`
         );
-  
+
         if (!response.ok) {
           throw new Error(`Weather API error: ${response.statusText}`);
         }

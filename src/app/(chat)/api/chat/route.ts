@@ -6,6 +6,8 @@ import { geminiFlashModel } from "@/ai";
 // ** import tools
 import { getWeather } from "@/tools/weather/weather";
 
+export const runtime = "edge";
+
 export async function POST(request: Request) {
   try {
     const { messages }: { messages: Array<Message> } = await request.json();
