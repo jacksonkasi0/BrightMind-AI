@@ -1,1 +1,1 @@
-# Healthcare AI Assistant
+# Bright Mind
