@@ -45,3 +45,7 @@ next-env.d.ts
 .dev.vars
 
 pnpm-lock.yaml
+bun.lockb
+
+wrangler.toml
+env.d.ts

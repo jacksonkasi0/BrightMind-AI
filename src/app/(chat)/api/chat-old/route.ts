@@ -10,19 +10,11 @@ import { geminiFlashModel } from "@/ai";
 // ** import tools
 import { getWeather } from "@/tools/weather/weather";
 
-// ** import AI(RAG) utilities
-import {
-  fetchRelevantContext,
-  handleAIResponse,
-  prepareSystemInstructions,
-} from "@/lib/aiUtils";
-
 // Specify runtime environment
 export const runtime = "edge";
 
 export async function POST(request: Request) {
   try {
-    // Cloudflare KV binding
     const kv = getRequestContext().env.HEALTHCARE_AI_CACHE;
 
     // Parse the incoming request body
@@ -43,10 +35,15 @@ export async function POST(request: Request) {
     // Save messages to KV for thread persistence
     await kv.put(threadId, JSON.stringify(coreMessages));
 
-    const context = await fetchRelevantContext(coreMessages);
-    console.log("Context:", context);
+    const currentThreadId = threadId;
 
-    const systemInstructions = prepareSystemInstructions(context);
+    // Define the AI model's system behavior and tools
+    const systemInstructions = `
+      - You can answer general questions and provide responses related to weather.
+      - Keep responses concise and accurate.
+      - If the question is weather-related, use the getWeather tool by providing latitude and longitude coordinates.
+      - For other questions, provide an appropriate AI-generated response.
+    `;
 
     // Stream text response from the AI model
     const result = await streamText({
@@ -57,16 +54,14 @@ export async function POST(request: Request) {
         getWeather, // Weather-fetching utility
       },
       onFinish: async ({ response }) => {
-        const allMessages = [...messages, ...response.messages];
-
-        // Save messages to KV for thread persistence
-        await kv.put(threadId, JSON.stringify(allMessages));
-
-        await handleAIResponse({
-          threadId,
-          messages,
-          response,
-        });
+        try {
+          const allMessages = [...messages, ...response.messages];
+          // Save messages to KV for thread persistence
+          await kv.put(currentThreadId, JSON.stringify(allMessages));
+        } catch (error) {
+          console.error("Error saving to KV:", error);
+          console.error("Failed to save thread data.");
+        }
       },
       experimental_telemetry: {
         isEnabled: true,

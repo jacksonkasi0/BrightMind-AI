@@ -6,6 +6,7 @@ import {
   ComposerPrimitive,
   MessagePrimitive,
   ThreadPrimitive,
+  ThreadWelcome,
 } from "@assistant-ui/react";
 import type { FC } from "react";
 
@@ -21,18 +22,24 @@ import {
   RefreshCwIcon,
   SendHorizontalIcon,
   StopCircleIcon,
+  Mic,
+  PaperclipIcon,
 } from "lucide-react";
 import { MarkdownText } from "@/components/assistant-ui/markdown-text";
 import { TooltipIconButton } from "@/components/assistant-ui/tooltip-icon-button";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import { ScrollBar } from "@/components/ui/scroll-area";
 
+import { AttachmentPrimitive } from "@assistant-ui/react";
+
 import { cn } from "@/lib/utils";
 
 export const Thread: FC = () => {
   return (
     <ScrollAreaPrimitive.Root asChild>
-      <ThreadPrimitive.Root className="bg-background h-full">
+      <ThreadPrimitive.Root className="bg-background h-full"
+
+       >
         <ScrollAreaPrimitive.Viewport className="thread-viewport" asChild>
           <ThreadPrimitive.Viewport className="flex h-full flex-col items-center overflow-y-scroll scroll-smooth bg-inherit px-4 pt-8">
             <MyThreadWelcome />
@@ -42,6 +49,15 @@ export const Thread: FC = () => {
                 UserMessage: MyUserMessage,
                 EditComposer: MyEditComposer,
                 AssistantMessage: MyAssistantMessage,
+              }}
+            />
+
+            <ComposerPrimitive.Attachments
+              components={{
+                Attachment: MyComposerAttachment,
+                Document: MyComposerAttachment,
+                File: MyComposerAttachment,
+                Image: MyComposerAttachment
               }}
             />
 
@@ -59,6 +75,15 @@ export const Thread: FC = () => {
   );
 };
 
+const MyComposerAttachment = () => (
+  <AttachmentPrimitive.Root>
+    <AttachmentPrimitive.Root />
+    <AttachmentPrimitive.unstable_Thumb />
+    <AttachmentPrimitive.Name />
+    <AttachmentPrimitive.Remove />
+  </AttachmentPrimitive.Root>
+);
+
 const MyThreadScrollToBottom: FC = () => {
   return (
     <ThreadPrimitive.ScrollToBottom asChild>
@@ -73,28 +98,77 @@ const MyThreadScrollToBottom: FC = () => {
   );
 };
 
+const MyThreadWelcomeSuggestions: FC = () => {
+  return (
+    <div className="aui-thread-welcome-suggestion-container mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-3xl mx-auto">
+      <ThreadWelcome.Suggestion
+        suggestion={{
+          prompt: "What is Healthcare AI?",
+        }}
+      />
+      <ThreadWelcome.Suggestion
+        suggestion={{
+          prompt: "How can AI assist in diagnostics?",
+        }}
+      />
+      <ThreadWelcome.Suggestion
+        suggestion={{
+          prompt: "What are the benefits of AI in healthcare?",
+        }}
+      />
+      <ThreadWelcome.Suggestion
+        suggestion={{
+          prompt: "How does AI improve patient outcomes?",
+        }}
+      />
+    </div>
+  );
+};
+
 const MyThreadWelcome: FC = () => {
   return (
     <ThreadPrimitive.Empty>
       <div className="flex flex-grow flex-col items-center justify-center">
         <Avatar>
-          <AvatarFallback>C</AvatarFallback>
+          <AvatarFallback>AI</AvatarFallback>
         </Avatar>
-        <p className="mt-4 font-medium">How can I help you today?</p>
+        <p className="mt-4 font-medium text-lg">How can I help you today?</p>
       </div>
+      <MyThreadWelcomeSuggestions />
     </ThreadPrimitive.Empty>
   );
 };
 
 const MyComposer: FC = () => {
+  const handleVoiceInput = () => {
+    // Start voice input
+  };
+
+  
   return (
-    <ComposerPrimitive.Root className="focus-within:border-aui-ring/20 flex w-full flex-wrap items-end rounded-lg border bg-inherit px-2.5 shadow-sm transition-colors ease-in">
+    <ComposerPrimitive.Root className="focus-within:border-aui-ring/20 flex w-full flex-wrap items-end rounded-lg border bg-inherit px-2.5 shadow-sm transition-colors ease-in gap-2">
+
       <ComposerPrimitive.Input
         autoFocus
         placeholder="Write a message..."
         rows={1}
         className="placeholder:text-muted-foreground max-h-40 flex-grow resize-none border-none bg-transparent px-2 py-4 text-sm outline-none focus:ring-0 disabled:cursor-not-allowed"
       />
+      <ComposerPrimitive.AddAttachment className="my-2.5 size-8 p-2">
+        <TooltipIconButton tooltip="Add Attachment" variant="default">
+          <PaperclipIcon  />
+        </TooltipIconButton>
+      </ComposerPrimitive.AddAttachment>
+
+      {/* NOTE: Hided Mic Input */}
+      <TooltipIconButton
+        tooltip="Voice Input"
+        variant="default"
+        className="my-2.5 size-8 p-2 hidden"
+        onClick={handleVoiceInput}
+      >
+        <Mic />
+      </TooltipIconButton>
       <ThreadPrimitive.If running={false}>
         <ComposerPrimitive.Send asChild>
           <TooltipIconButton
@@ -245,7 +319,7 @@ const MyBranchPicker: FC<BranchPickerPrimitive.Root.Props> = ({
       hideWhenSingleBranch
       className={cn(
         "text-muted-foreground inline-flex items-center text-xs",
-        className
+        className,
       )}
       {...rest}
     >
