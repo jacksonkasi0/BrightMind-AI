@@ -49,3 +49,5 @@ bun.lockb
 
 wrangler.toml
 env.d.ts
+
+secrets.txt
