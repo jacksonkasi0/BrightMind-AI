@@ -23,7 +23,7 @@ export const runtime = "edge";
 export async function POST(request: Request) {
   try {
     // Cloudflare KV binding
-    const kv = getRequestContext().env.HEALTHCARE_AI_CACHE;
+    const kv = getRequestContext().env.PERSONAL_ASSISTANT;
 
     // Parse the incoming request body
     const {
